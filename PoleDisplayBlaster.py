@@ -18,6 +18,11 @@ XLARGE_FONT=("Verdana", 18)
 
 ICONFILENAME = "PoleDisplay.ico"
 
+def blastText(theText):
+    print("Blasting text:\n", end='')
+    print(theText)
+
+    
 #Main application class.
 class PoleDisplayBlaster(tk.Tk):
 
@@ -58,9 +63,23 @@ class StartPage(tk.Frame):
         self.T.insert(tk.END, "Just a text Widget\nin two lines\n")
         self.T.focus_set()
         self.T.pack()
+        
+#        print(self.T.get(tk.END))
+#        foo = input("Stop here")
 
         button1 = ttk.Button(self, text="Message Blast Display",
-                            command=lambda: controller.show_frame(PageOne))       
+#                             command=lambda: blastText("abc\n123"))
+                             command=lambda: blastText(self.T.get("1.0",tk.END+"-1c")))
+#                             command=lambda: blastText(self.T.get("1.0",'end-1c')))
+        #                     command=lambda: blastText(self.T.get("1.0",tk.END)))
+                                #The first part, "1.0" means that the input should be
+                                #read from line one, character zero (ie: the very first character).
+                                #END is an imported constant which is set to the string "end"
+                                # The only issue with this is that it actually adds a newline
+                                #to our input. So, in order to fix it we should change END to end-1c
+                                #(Thanks Bryan Oakley) The -1c deletes 1 character, while -2c
+                                #would mean delete two characters, and so on.
+
         button1.pack()
 
         button2 = ttk.Button(self, text="Time Blast Display",        
