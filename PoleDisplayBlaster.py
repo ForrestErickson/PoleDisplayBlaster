@@ -11,10 +11,6 @@ import tkinter as tk
 from tkinter import ttk
 import string
 
-#print(type(END))
-#input("Waiting now")
-#END = 'end' #Clue, did not need to do this in the other example programs.
-
 VERSION = "1.0.0"
 SMALL_FONT=("Verdana", 10)
 LARGE_FONT=("Verdana", 12)
@@ -23,7 +19,7 @@ XLARGE_FONT=("Verdana", 18)
 ICONFILENAME = "PoleDisplay.ico"
 
 #Main application class.
-class SeaofBTCapp(tk.Tk):
+class PoleDisplayBlaster(tk.Tk):
 
     def __init__(self, *args, **kwargs):
 
@@ -121,7 +117,7 @@ class SetupPage(tk.Frame):
         button1.pack()
 
 
-app = SeaofBTCapp()
+app = PoleDisplayBlaster()
 app.mainloop()
 
         
