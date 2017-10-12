@@ -1,0 +1,128 @@
+#PoleDisplayBlaster.py
+#Forrest Erickson
+#11 Oct, 2017.
+# GUI developed with ideas from Object Orented crash course from: https://www.youtube.com/watch?v=A0gaXfM1UN0&t=38s
+#TTK introduced at: https://www.youtube.com/watch?v=oV68QJJUXTU
+
+
+from datetime import datetime #So we can use datetime.now()
+
+import tkinter as tk
+from tkinter import ttk
+import string
+
+#print(type(END))
+#input("Waiting now")
+#END = 'end' #Clue, did not need to do this in the other example programs.
+
+VERSION = "1.0.0"
+SMALL_FONT=("Verdana", 10)
+LARGE_FONT=("Verdana", 12)
+XLARGE_FONT=("Verdana", 18)
+
+ICONFILENAME = "PoleDisplay.ico"
+
+#Main application class.
+class SeaofBTCapp(tk.Tk):
+
+    def __init__(self, *args, **kwargs):
+
+        tk.Tk.__init__(self, *args, **kwargs)
+        tk.Tk.iconbitmap(self, default = ICONFILENAME)
+        tk.Tk.wm_title(self, "Pole Display Blaster " + VERSION)
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand = True)
+        container.grid_rowconfigure(0, weight =1)
+        container.grid_columnconfigure(0, weight =1)
+
+        self.frames = {}
+        #Add to the list in the for loop all the page classes
+        for F in (StartPage, PageOne, PageTwo, SetupPage):            
+            frame = F(container, self)
+            self.frames[F] = frame
+            frame.grid( row=0,column=0, sticky="nsew")        
+        self.show_frame(StartPage)        
+        
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
+
+#Each page is a class.
+class StartPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Blast it!", font=XLARGE_FONT)
+        label.pack(pady=10, padx=10)
+
+        label_2 = tk.Label(self, text="Input Text Here", font=LARGE_FONT)
+        label_2.pack(pady=10, padx=10)
+
+        self.T = tk.Text(self, height=2, width=20, bd=10)        
+        self.T.insert(tk.END, "Just a text Widget\nin two lines\n")
+        self.T.focus_set()
+        self.T.pack()
+
+        button1 = ttk.Button(self, text="Message Blast Display",
+                            command=lambda: controller.show_frame(PageOne))       
+        button1.pack()
+
+        button2 = ttk.Button(self, text="Time Blast Display",        
+                            command=lambda: controller.show_frame(PageTwo))       
+        button2.pack()
+        
+        button3 = ttk.Button(self, text="Setup Page",        
+                            command=lambda: controller.show_frame(SetupPage))       
+        button3.pack()
+        
+class PageOne(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Page One", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        
+        button1 = ttk.Button(self, text="Back to Home",        
+                            command=lambda: controller.show_frame(StartPage))       
+        button1.pack()
+
+        button2 = ttk.Button(self, text="Page Two",        
+                            command=lambda: controller.show_frame(PageTwo))       
+        button2.pack()
+
+
+class PageTwo(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Page Two", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        
+        button1 = ttk.Button(self, text="Back to Home",        
+                            command=lambda: controller.show_frame(StartPage))       
+        button1.pack()
+
+        button2 = ttk.Button(self, text="Page One",        
+                            command=lambda: controller.show_frame(PageOne))       
+        button2.pack()
+        
+class SetupPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label_1 = tk.Label(self, text="Setup Page", font=SMALL_FONT)
+        label_1.pack(pady=10, padx=10)
+
+        label_2 = tk.Label(self, text="Now it is: " + str(datetime.now()), font=SMALL_FONT)
+        label_2.pack(pady=10, padx=10)
+        
+        button1 = ttk.Button(self, text="Back to Home",        
+                            command=lambda: controller.show_frame(StartPage))       
+        button1.pack()
+
+
+app = SeaofBTCapp()
+app.mainloop()
+
+        
+        
