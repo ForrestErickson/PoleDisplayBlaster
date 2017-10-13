@@ -17,6 +17,10 @@ SMALL_FONT=("Verdana", 10)
 LARGE_FONT=("Verdana", 12)
 XLARGE_FONT=("Verdana", 18)
 
+CR = b'\x0d'
+LF = b'\x0a'
+
+
 IEE_CLEAR = b'\x0c'             #ASCII FF
 IEE_HIDECURSOR = b'\x0e'
 IEE_SHOWCURSOR = b'\x0f'
@@ -26,6 +30,8 @@ IEE_RESET = b'\x14'
 IEE_DISPLAYCLEAR = b'\x15'
 IEE_HOME = b'\x16'
 IEE_WRAPAROUND = b'\x1a'
+IEE_SCROLLINGTOP = b'\x1c'
+IEE_SCROLLINGBOTTOM = b'\x1e'
 
 ICONFILENAME = "PoleDisplay.ico"
 
@@ -46,6 +52,43 @@ def initPoleDisplay():
 def cursorHome():
     #Set IEE Pole cursor home.
     seriallib.myWritechr(IEE_HOME.decode())
+
+def cursorHide():
+    #Set IEE Pole cursor hide.
+    seriallib.myWritechr(IEE_HIDECURSOR.decode())
+
+def cursorShow():
+    #Set IEE Pole cursor show.
+    seriallib.myWritechr(IEE_SHOWCURSOR.decode())
+
+def displayClear():
+    #Set IEE Pole clear.
+    seriallib.myWritechr(IEE_DISPLAYCLEAR.decode())
+
+
+def scrollTop(theText):
+    #Now to Python Shell
+    print("Top scroll text:\n", end='')
+    print(theText)
+    seriallib.myWritechr(IEE_CLEAR.decode())    
+    seriallib.myWritechr(IEE_HOME.decode())
+    seriallib.myWritechr(IEE_SCROLLINGTOP.decode())
+    for i in range(len(theText)):
+        seriallib.myWritechr(theText[i])
+    seriallib.myWritechr(CR.decode())
+    
+def scrollBottom(theText):
+    #Now to Python Shell
+    print("Bottom scroll text:\n", end='')
+    print(theText)
+    seriallib.myWritechr(IEE_CLEAR.decode())    
+    seriallib.myWritechr(IEE_HOME.decode())
+    seriallib.myWritechr(IEE_SCROLLINGBOTTOM.decode())
+    for i in range(len(theText)):
+        seriallib.myWritechr(theText[i])
+    seriallib.myWritechr(CR.decode())
+    
+
 
     
 def blastText(theText):
@@ -119,7 +162,7 @@ class StartPage(tk.Frame):
         self.T.focus_set()
         self.T.pack()
         
-        button1 = ttk.Button(self, text="Message Blast Display",
+        button_1 = ttk.Button(self, text="Message Blast Display",
                              command=lambda: blastText(self.T.get("1.0",tk.END+"-1c")))
                                 #From: https://stackoverflow.com/questions/34112085/pycharm-end-statement-not-working
                                 #The first part, "1.0" means that the input should be
@@ -130,20 +173,24 @@ class StartPage(tk.Frame):
                                 #(Thanks Bryan Oakley) The -1c deletes 1 character, while -2c
                                 #would mean delete two characters, and so on.
 
-        button1.pack()
+        button_1.pack()
 
-        button2 = ttk.Button(self, text="Time Blast Display",        
+        button_2 = ttk.Button(self, text="Time Blast Display",        
                             command=lambda: blastTime())
-#                            command=lambda: controller.show_frame(PageTwo))       
-        button2.pack()
+        button_2.pack()
         
-        button3 = ttk.Button(self, text="Cursor Home",        
-                            command=lambda: cursorHome())
-        button3.pack()
+        button_4 = ttk.Button(self, text="Scroll In Top Line",        
+                            command=lambda: scrollTop(self.T.get("1.0",tk.END+"-1c")))
+        button_4.pack()
 
-        button4 = ttk.Button(self, text="Setup Page",        
+        button_5 = ttk.Button(self, text="Scroll In Bottom Line",        
+                            command=lambda: scrollBottom(self.T.get("1.0",tk.END+"-1c")))
+        button_5.pack()
+
+        button_6 = ttk.Button(self, text="Setup Page",        
                             command=lambda: controller.show_frame(SetupPage))       
-        button4.pack()
+        button_6.pack()
+
         
 class PageOne(tk.Frame):
 
@@ -186,9 +233,26 @@ class SetupPage(tk.Frame):
         label_2 = tk.Label(self, text="Now it is: " + str(datetime.now()), font=SMALL_FONT)
         label_2.pack(pady=10, padx=10)
         
-        button1 = ttk.Button(self, text="Back to Home",        
+        button_1 = ttk.Button(self, text="Back to Home",        
                             command=lambda: controller.show_frame(StartPage))       
-        button1.pack()
+        button_1.pack()
+
+        button_2 = ttk.Button(self, text="Cursor Home",        
+                            command=lambda: cursorHome())
+        button_2.pack()
+
+        button_3 = ttk.Button(self, text="Display Clear",        
+                            command=lambda: displayClear())     
+        button_3.pack()
+
+        button_4 = ttk.Button(self, text="Hide Cursor",        
+                            command=lambda: cursorHide())     
+        button_4.pack()
+
+        button_5 = ttk.Button(self, text="Show Cursor",        
+                            command=lambda: cursorShow())     
+        button_5.pack()
+
 
 
 initSerialPort()
