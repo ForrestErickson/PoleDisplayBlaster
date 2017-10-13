@@ -21,6 +21,7 @@ IEE_CLEAR = b'\x0c'             #ASCII FF
 IEE_HIDECURSOR = b'\x0e'
 IEE_SHOWCURSOR = b'\x0f'
 IEE_NORMALDATAENTERY = b'\x11'
+IEE_AUTOMATICCROFF = b'\x12'
 IEE_RESET = b'\x14'
 IEE_DISPLAYCLEAR = b'\x15'
 IEE_HOME = b'\x16'
@@ -37,12 +38,13 @@ def initSerialPort():
 def initPoleDisplay():
     #Set up IEE Pole Display.
     seriallib.myWritechr(IEE_RESET.decode())
-    seriallib.myWritechr(IEE_NORMALDATAENTERY.decode())    
+#    seriallib.myWritechr(IEE_NORMALDATAENTERY.decode())    
+    seriallib.myWritechr(IEE_AUTOMATICCROFF.decode())    
 #    seriallib.myWritechr(IEE_HIDECURSOR.decode())
-#    seriallib.myWritechr(IEE_WRAPAROUND.decode())
+    seriallib.myWritechr(IEE_WRAPAROUND.decode())
     
 def cursorHome():
-    #Set IEE Pole cursor homw.
+    #Set IEE Pole cursor home.
     seriallib.myWritechr(IEE_HOME.decode())
 
     
