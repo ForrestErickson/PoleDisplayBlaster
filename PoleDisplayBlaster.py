@@ -3,6 +3,7 @@
 #11 Oct, 2017.
 # GUI developed with ideas from Object Orented crash course from: https://www.youtube.com/watch?v=A0gaXfM1UN0&t=38s
 #TTK introduced at: https://www.youtube.com/watch?v=oV68QJJUXTU
+#13 Oct, 2017 Working well with two windows with buttons.
 
 
 from datetime import datetime #So we can use datetime.now()
@@ -97,11 +98,8 @@ def blastText(theText):
     print(theText)
     #Now to serial port using myWritechr(c)
     #Clear and Home display 
-#    seriallib.myWritechr(IEE_HIDECURSOR.decode())
-#    seriallib.myWritechr(IEE_CLEAR.decode())
     seriallib.myWritechr(IEE_CLEAR.decode())    
     seriallib.myWritechr(IEE_HOME.decode())
-#    foo = input("Any key to continue")
     for i in range(len(theText)):
         seriallib.myWritechr(theText[i])
 
@@ -115,7 +113,6 @@ def blastTime():
     print(stringTime)
     #Now to serial port using myWritechr(c)
     #Clear and Home display 
-#    seriallib.myWritechr(IEE_HIDECURSOR.decode())
     seriallib.myWritechr(IEE_CLEAR.decode())    
     seriallib.myWritechr(IEE_HOME.decode())   
     for i in range(len(stringTime)):
