@@ -10,6 +10,7 @@ from datetime import datetime #So we can use datetime.now()
 import tkinter as tk
 from tkinter import ttk
 import string
+import seriallib
 
 VERSION = "1.0.0"
 SMALL_FONT=("Verdana", 10)
@@ -19,13 +20,22 @@ XLARGE_FONT=("Verdana", 18)
 ICONFILENAME = "PoleDisplay.ico"
 
 def blastText(theText):
+    #Now to Python Shell
     print("Blasting text:\n", end='')
     print(theText)
+    #Now to serial port using myWritechr(c)
+    for i in range(len(theText)):
+        seriallib.myWritechr(theText[i])
+
 
 def blastTime():
+    #Now to Python Shell
     stringTime=("Now it is: " + str(datetime.now()))
     print("Blasting text:\n", end='')
     print(stringTime)
+    #Now to serial port using myWritechr(c)
+    for i in range(len(stringTime)):
+        seriallib.myWritechr(stringTime[i])
     
 #Main application class.
 class PoleDisplayBlaster(tk.Tk):
@@ -135,6 +145,10 @@ class SetupPage(tk.Frame):
                             command=lambda: controller.show_frame(StartPage))       
         button1.pack()
 
+
+#Set up serial port
+seriallib.mySerialport() #Create serial port.
+seriallib.myOpenSerialPort() #Open the port.
 
 app = PoleDisplayBlaster()
 app.mainloop()
