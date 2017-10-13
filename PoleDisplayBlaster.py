@@ -148,16 +148,15 @@ class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Blast it!", font=XLARGE_FONT)
-        label.pack(pady=10, padx=10)
-
         label_2 = tk.Label(self, text="Input Text Here", font=LARGE_FONT)
         label_2.pack(pady=10, padx=10)
-
         self.T = tk.Text(self, height=2, width=20, bd=10)        
         self.T.insert(tk.END, "Just a text Widget in two lines.")
         self.T.focus_set()
         self.T.pack()
+        label = tk.Label(self, text="Blast it!", font=XLARGE_FONT)
+        label.pack(pady=10, padx=10)
+
         
         button_1 = ttk.Button(self, text="Message Blast Display",
                              command=lambda: blastText(self.T.get("1.0",tk.END+"-1c")))
