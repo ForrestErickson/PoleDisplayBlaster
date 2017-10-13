@@ -22,6 +22,10 @@ def blastText(theText):
     print("Blasting text:\n", end='')
     print(theText)
 
+def blastTime():
+    stringTime=("Now it is: " + str(datetime.now()))
+    print("Blasting text:\n", end='')
+    print(stringTime)
     
 #Main application class.
 class PoleDisplayBlaster(tk.Tk):
@@ -64,14 +68,9 @@ class StartPage(tk.Frame):
         self.T.focus_set()
         self.T.pack()
         
-#        print(self.T.get(tk.END))
-#        foo = input("Stop here")
-
         button1 = ttk.Button(self, text="Message Blast Display",
-#                             command=lambda: blastText("abc\n123"))
                              command=lambda: blastText(self.T.get("1.0",tk.END+"-1c")))
-#                             command=lambda: blastText(self.T.get("1.0",'end-1c')))
-        #                     command=lambda: blastText(self.T.get("1.0",tk.END)))
+                                #From: https://stackoverflow.com/questions/34112085/pycharm-end-statement-not-working
                                 #The first part, "1.0" means that the input should be
                                 #read from line one, character zero (ie: the very first character).
                                 #END is an imported constant which is set to the string "end"
@@ -83,7 +82,8 @@ class StartPage(tk.Frame):
         button1.pack()
 
         button2 = ttk.Button(self, text="Time Blast Display",        
-                            command=lambda: controller.show_frame(PageTwo))       
+                            command=lambda: blastTime())
+#                            command=lambda: controller.show_frame(PageTwo))       
         button2.pack()
         
         button3 = ttk.Button(self, text="Setup Page",        
