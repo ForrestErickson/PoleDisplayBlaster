@@ -12,9 +12,9 @@ def mySerialport():
     global ser
     ser = serial.Serial()        
 #    ser.port = "/dev/ttyUSB0"
-    ser.port = "/dev/ttyUSB1"  #For USB pole display on RPi
+#    ser.port = "/dev/ttyUSB1"  #For USB pole display on RPi
 #    ser.port = "COM8"
-#    ser.port = "COM4"
+    ser.port = "COM4"
 #    ser.port = "COM2"
     ser.baudrate = 9600
     ser.bytesize = serial.EIGHTBITS #number of bits per bytes
@@ -33,7 +33,8 @@ def mySerialport():
                             #    3. x, x is bigger than 0, float allowed, timeout block call
     
 if __name__ == "__main__":    
-    import serial, time    #initialization and open the port
+#    import serial, time    #initialization and open the port
+    import serial    #initialization and open the port
     mySerialport()  #initialization and open the portsd
     print (SPLASH) 
     

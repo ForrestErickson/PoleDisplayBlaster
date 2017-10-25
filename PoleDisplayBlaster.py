@@ -10,7 +10,7 @@ from datetime import datetime #So we can use datetime.now()
 
 import tkinter as tk
 from tkinter import ttk
-import string
+#import string
 import seriallib
 import sys # to get platform 
 
@@ -151,7 +151,7 @@ class PoleDisplayBlaster(tk.Tk):
 
         self.frames = {}
         #Add to the list in the for loop all the page classes
-        for F in (StartPage, SetupPage):            
+        for F in (StartPage, DisplaySetupPage, SerialSetupPage):            
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid( row=0,column=0, sticky="nsew")        
@@ -201,17 +201,21 @@ class StartPage(tk.Frame):
                             command=lambda: scrollBottom(self.T.get("1.0",tk.END+"-1c")))
         button_5.pack()
 
-        button_6 = ttk.Button(self, text="Setup Page",        
-                            command=lambda: controller.show_frame(SetupPage))       
+        button_6 = ttk.Button(self, text="Display Setup Page",        
+                            command=lambda: controller.show_frame(DisplaySetupPage))       
         button_6.pack()
+        
+        button_7 = ttk.Button(self, text="Serial Setup Page",        
+                            command=lambda: controller.show_frame(SerialSetupPage))       
+        button_7.pack()
 
        
        
-class SetupPage(tk.Frame):
+class DisplaySetupPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label_1 = tk.Label(self, text="Setup Page", font=SMALL_FONT)
+        label_1 = tk.Label(self, text="Display Setup Page", font=SMALL_FONT)
         label_1.pack(pady=10, padx=10)
 
         label_2 = tk.Label(self, text="Now it is: " + str(datetime.now()), font=SMALL_FONT)
@@ -236,6 +240,28 @@ class SetupPage(tk.Frame):
         button_5 = ttk.Button(self, text="Show Cursor",        
                             command=lambda: cursorShow())     
         button_5.pack()
+
+class SerialSetupPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label_1 = tk.Label(self, text="Serial Setup Page", font=SMALL_FONT)
+        label_1.pack(pady=10, padx=10)
+
+        label_2 = tk.Label(self, text="Now it is: " + str(datetime.now()), font=SMALL_FONT)
+        label_2.pack(pady=10, padx=10)
+        
+        button_1 = ttk.Button(self, text="Back to Home",        
+                            command=lambda: controller.show_frame(StartPage))       
+        button_1.pack()
+
+        button_2 = ttk.Button(self, text="Open Serial",        
+                            command=lambda: seriallib.myOpenSerialPort())
+        button_2.pack()
+
+        button_3 = ttk.Button(self, text="Close Serial",        
+                            command=lambda: seriallib.myCloseSerialPort())     
+        button_3.pack()
 
 
 
