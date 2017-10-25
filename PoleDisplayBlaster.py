@@ -12,6 +12,7 @@ import tkinter as tk
 from tkinter import ttk
 import string
 import seriallib
+import sys # to get platform 
 
 VERSION = "1.0.0"
 SMALL_FONT=("Verdana", 10)
@@ -36,6 +37,22 @@ IEE_SCROLLINGBOTTOM = b'\x1e'
 
 ICONFILENAME = "PoleDisplay.ico"
 
+def get_platform():
+    platforms = {
+        'linux1' : 'Linux',
+        'linux2' : 'Linux',
+        'darwin' : 'OS X',
+        'win32' : 'Windows',
+        'win64' : 'Windows'
+    }
+    if sys.platform not in platforms:
+        return sys.platform
+
+    return platforms[sys.platform]
+        
+
+
+        
 def initSerialPort():
     #Set up serial port
     seriallib.mySerialport() #Create serial port.
@@ -124,7 +141,8 @@ class PoleDisplayBlaster(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.iconbitmap(self, default = ICONFILENAME)
+        if 'linux' != get_platform() :
+            tk.Tk.iconbitmap(self, default = ICONFILENAME)
         tk.Tk.wm_title(self, "Pole Display Blaster " + VERSION)
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)

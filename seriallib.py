@@ -12,9 +12,9 @@ def mySerialport():
     global ser
     ser = serial.Serial()        
 #    ser.port = "/dev/ttyUSB0"
-#    ser.port = "/dev/ttyUSB1"  #For USB pole display on RPi
+    ser.port = "/dev/ttyUSB1"  #For USB pole display on RPi
 #    ser.port = "COM8"
-    ser.port = "COM4"
+#    ser.port = "COM4"
 #    ser.port = "COM2"
     ser.baudrate = 9600
     ser.bytesize = serial.EIGHTBITS #number of bits per bytes
