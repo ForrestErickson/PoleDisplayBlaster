@@ -36,6 +36,7 @@ IEE_SCROLLINGTOP = b'\x1c'
 IEE_SCROLLINGBOTTOM = b'\x1e'
 
 ICONFILENAME = "PoleDisplay.ico"
+ICONFILENAME_LINUX = "@PoleDisplay16x16.xbm"    #Does not actualy work.
 
 def get_platform():
     platforms = {
@@ -152,6 +153,9 @@ class PoleDisplayBlaster(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         if 'Linux' != get_platform() :
             tk.Tk.iconbitmap(self, default = ICONFILENAME)
+        else:
+#            tk.Tk.iconbitmap(self, default = ICONFILENAME_LINUX)
+            tk.Tk.iconbitmap(self, ICONFILENAME_LINUX)
         tk.Tk.wm_title(self, "Pole Display Blaster " + VERSION)
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
