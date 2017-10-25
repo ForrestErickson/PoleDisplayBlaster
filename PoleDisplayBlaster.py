@@ -213,6 +213,10 @@ class StartPage(tk.Frame):
         button_5 = ttk.Button(self, text="Scroll In Bottom Line",        
                             command=lambda: scrollBottom(self.T.get("1.0",tk.END+"-1c")))
         button_5.pack()
+        
+        label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
+        label_break.pack(pady=3, padx=10)
+
 
         button_6 = ttk.Button(self, text="Display Setup Page",        
                             command=lambda: controller.show_frame(DisplaySetupPage))       
@@ -237,6 +241,9 @@ class DisplaySetupPage(tk.Frame):
         button_1 = ttk.Button(self, text="Back to Home",        
                             command=lambda: controller.show_frame(StartPage))       
         button_1.pack()
+        
+        label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
+        label_break.pack(pady=3, padx=10)
 
         button_2 = ttk.Button(self, text="Cursor Home",        
                             command=lambda: cursorHome())
@@ -267,6 +274,9 @@ class SerialSetupPage(tk.Frame):
         button_1 = ttk.Button(self, text="Back to Home",        
                             command=lambda: controller.show_frame(StartPage))       
         button_1.pack()
+        
+        label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
+        label_break.pack(pady=3, padx=10)        
 
         button_2 = ttk.Button(self, text="Open Serial",        
                             command=lambda: seriallib.myOpenSerialPort())
