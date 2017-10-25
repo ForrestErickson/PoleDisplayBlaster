@@ -56,6 +56,14 @@ def get_platform():
 def initSerialPort():
     #Set up serial port
     seriallib.mySerialport() #Create serial port.
+    
+    #Check OS and set serial port accordingly, 'COM4' for Win, or  "/dev/ttyUSB1" for Linux
+    os =get_platform()
+    if (os == 'Linux') :
+        seriallib.mySetSerialPort("/dev/ttyUSB0")
+    else:
+        seriallib.mySetSerialPort("COM4")
+    
     seriallib.myOpenSerialPort() #Open the port.
     
 
@@ -265,6 +273,7 @@ class SerialSetupPage(tk.Frame):
 
 
 
+        
 initSerialPort()
 initPoleDisplay()
 

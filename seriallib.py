@@ -38,6 +38,10 @@ if __name__ == "__main__":
     mySerialport()  #initialization and open the portsd
     print (SPLASH) 
     
+def mySetSerialPort(serial_port="COM4"):
+    myserial_port = serial_port
+    ser.port = myserial_port
+
 def myOpenSerialPort():
     try: 
         ser.open()
