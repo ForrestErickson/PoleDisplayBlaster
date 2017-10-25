@@ -2,8 +2,9 @@
 #Seriallib.py
 #Lee Erickson
 #Copyright 26 August 2017
+#Update with USB1 port for USB Display on RPi.
 
-SPLASH = 'Seriallib.py by Lee Erickson, Copyright 26 August 2017\r\n'
+SPLASH = 'Seriallib.py by Lee Erickson, Copyright 25 October 2017\r\n'
 
 def mySerialport():
 #class mySerialport():
@@ -11,6 +12,7 @@ def mySerialport():
     global ser
     ser = serial.Serial()        
 #    ser.port = "/dev/ttyUSB0"
+#    ser.port = "/dev/ttyUSB1"  #For USB pole display on RPi
 #    ser.port = "COM8"
     ser.port = "COM4"
 #    ser.port = "COM2"
@@ -38,7 +40,7 @@ if __name__ == "__main__":
 def myOpenSerialPort():
     try: 
         ser.open()
-    except serial.SerialException:
+    except ser.SerialException:
         print ("error open serial port: " + ser.port )
         exit()
 
