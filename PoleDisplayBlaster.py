@@ -39,6 +39,7 @@ ICONFILENAME = "PoleDisplay.ico"
 
 def get_platform():
     platforms = {
+        'linux' : 'Linux',
         'linux1' : 'Linux',
         'linux2' : 'Linux',
         'darwin' : 'OS X',
@@ -60,7 +61,7 @@ def initSerialPort():
     #Check OS and set serial port accordingly, 'COM4' for Win, or  "/dev/ttyUSB1" for Linux
     os =get_platform()
     if (os == 'Linux') :
-        seriallib.mySetSerialPort("/dev/ttyUSB0")
+        seriallib.mySetSerialPort("/dev/ttyUSB1")
     else:
         seriallib.mySetSerialPort("COM4")
     
@@ -149,7 +150,7 @@ class PoleDisplayBlaster(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        if 'linux' != get_platform() :
+        if 'Linux' != get_platform() :
             tk.Tk.iconbitmap(self, default = ICONFILENAME)
         tk.Tk.wm_title(self, "Pole Display Blaster " + VERSION)
         container = tk.Frame(self)
