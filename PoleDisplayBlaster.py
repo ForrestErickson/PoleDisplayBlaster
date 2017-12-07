@@ -155,7 +155,8 @@ class PoleDisplayBlaster(tk.Tk):
             tk.Tk.iconbitmap(self, default = ICONFILENAME)
         else:
 #            tk.Tk.iconbitmap(self, default = ICONFILENAME_LINUX)
-            tk.Tk.iconbitmap(self, ICONFILENAME_LINUX)
+#            tk.Tk.iconbitmap(self, ICONFILENAME_LINUX)
+            print("Skipping the icon in Linux.")
         tk.Tk.wm_title(self, "Pole Display Blaster " + VERSION)
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
