@@ -4,17 +4,17 @@
 # GUI developed with ideas from Object Orented crash course from: https://www.youtube.com/watch?v=A0gaXfM1UN0&t=38s
 #TTK introduced at: https://www.youtube.com/watch?v=oV68QJJUXTU
 #13 Oct, 2017 Working well with two windows with buttons.
+#8 December 2017. Version becomes 1.0.1 after making tag for V1.0.0.  Rearrange buttons on display and serial set pages. Improve error report on system type.
 
 
 from datetime import datetime #So we can use datetime.now()
 
 import tkinter as tk
 from tkinter import ttk
-#import string
 import seriallib
 import sys # to get platform 
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 SMALL_FONT=("Verdana", 10)
 LARGE_FONT=("Verdana", 12)
 XLARGE_FONT=("Verdana", 18)
@@ -22,7 +22,7 @@ XLARGE_FONT=("Verdana", 18)
 CR = b'\x0d'
 LF = b'\x0a'
 
-
+#IEE Command Set
 IEE_CLEAR = b'\x0c'             #ASCII FF
 IEE_HIDECURSOR = b'\x0e'
 IEE_SHOWCURSOR = b'\x0f'
@@ -35,6 +35,7 @@ IEE_WRAPAROUND = b'\x1a'
 IEE_SCROLLINGTOP = b'\x1c'
 IEE_SCROLLINGBOTTOM = b'\x1e'
 
+#Icons
 ICONFILENAME = "PoleDisplay.ico"
 ICONFILENAME_LINUX = "@PoleDisplay16x16.xbm"    #Does not actualy work.
 
@@ -46,13 +47,13 @@ def get_platform():
         'darwin' : 'OS X',
         'win32' : 'Windows',
         'win64' : 'Windows'
-    }
+    }    
     if sys.platform not in platforms:
+        print("The platform : ", sys.platform, " is not recognized.")
+        print("Recognized platforms are: ", platforms)
         return sys.platform
 
     return platforms[sys.platform]
-        
-
 
         
 def initSerialPort():
@@ -93,7 +94,6 @@ def displayClear():
     #Set IEE Pole clear.
     seriallib.myWritechr(IEE_DISPLAYCLEAR.decode())
 
-
 def scrollTop(theText):
     #Now to Python Shell
     print("Top scroll text:\n", end='')
@@ -115,10 +115,7 @@ def scrollBottom(theText):
     for i in range(len(theText)):
         seriallib.myWritechr(theText[i])
     seriallib.myWritechr(CR.decode())
-    
-
-
-    
+   
 def blastText(theText):
     #Now to Python Shell
     print("Blasting text:\n", end='')
@@ -129,7 +126,6 @@ def blastText(theText):
     seriallib.myWritechr(IEE_HOME.decode())
     for i in range(len(theText)):
         seriallib.myWritechr(theText[i])
-
 
 def blastTime():
     #Now to Python Shell
@@ -218,7 +214,6 @@ class StartPage(tk.Frame):
         label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
         label_break.pack(pady=3, padx=10)
 
-
         button_6 = ttk.Button(self, text="Display Setup Page",        
                             command=lambda: controller.show_frame(DisplaySetupPage))       
         button_6.pack()
@@ -237,14 +232,7 @@ class DisplaySetupPage(tk.Frame):
         label_1.pack(pady=10, padx=10)
 
         label_2 = tk.Label(self, text="Now it is: " + str(datetime.now()), font=SMALL_FONT)
-        label_2.pack(pady=10, padx=10)
-        
-        button_1 = ttk.Button(self, text="Back to Home",        
-                            command=lambda: controller.show_frame(StartPage))       
-        button_1.pack()
-        
-        label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
-        label_break.pack(pady=3, padx=10)
+        label_2.pack(pady=10, padx=10)            
 
         button_2 = ttk.Button(self, text="Cursor Home",        
                             command=lambda: cursorHome())
@@ -261,6 +249,13 @@ class DisplaySetupPage(tk.Frame):
         button_5 = ttk.Button(self, text="Show Cursor",        
                             command=lambda: cursorShow())     
         button_5.pack()
+                
+        label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
+        label_break.pack(pady=3, padx=10)
+                
+        button_1 = ttk.Button(self, text="Back to Home",        
+                            command=lambda: controller.show_frame(StartPage))       
+        button_1.pack()
 
 class SerialSetupPage(tk.Frame):
 
@@ -270,14 +265,7 @@ class SerialSetupPage(tk.Frame):
         label_1.pack(pady=10, padx=10)
 
         label_2 = tk.Label(self, text="Now it is: " + str(datetime.now()), font=SMALL_FONT)
-        label_2.pack(pady=10, padx=10)
-        
-        button_1 = ttk.Button(self, text="Back to Home",        
-                            command=lambda: controller.show_frame(StartPage))       
-        button_1.pack()
-        
-        label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
-        label_break.pack(pady=3, padx=10)        
+        label_2.pack(pady=10, padx=10)       
 
         button_2 = ttk.Button(self, text="Open Serial",        
                             command=lambda: seriallib.myOpenSerialPort())
@@ -286,9 +274,15 @@ class SerialSetupPage(tk.Frame):
         button_3 = ttk.Button(self, text="Close Serial",        
                             command=lambda: seriallib.myCloseSerialPort())     
         button_3.pack()
+        
+        label_break = tk.Label(self, text="---Setup Below---", font=SMALL_FONT)
+        label_break.pack(pady=3, padx=10) 
+        
+        button_1 = ttk.Button(self, text="Back to Home",        
+                            command=lambda: controller.show_frame(StartPage))       
+        button_1.pack()
 
-
-
+#Main
         
 initSerialPort()
 initPoleDisplay()
